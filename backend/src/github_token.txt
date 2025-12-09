@@ -1,0 +1,12 @@
+
+github-token
+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
+
+
+
+
+api-codebot
+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
+
+coder
+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

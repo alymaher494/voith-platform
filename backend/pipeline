@@ -1,0 +1,128 @@
+#!/bin/bash
+
+# Media Processing Pipeline Script
+# Downloads a video, transcribes it, translates the transcription, and summarizes the content
+# Usage: ./pipeline "https://youtube.com/watch?v=VIDEO_ID"
+
+set -e  # Exit on any error
+
+# Check if URL is provided
+if [ $# -eq 0 ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+    echo "🎬 Media Processing Pipeline"
+    echo "Usage: $0 \"VIDEO_URL\""
+    echo ""
+    echo "This script will:"
+    echo "  1. Download the video from the provided URL"
+    echo "  2. Transcribe the audio to text"
+    echo "  3. Translate the transcription to English"
+    echo "  4. Summarize the translated content"
+    echo ""
+    echo "Output files will be saved in ./pipeline_output/"
+    echo "  - transcription.txt: Original transcription"
+    echo "  - translation.txt: English translation"
+    echo "  - summary.txt: AI-generated content summary"
+    exit 0
+fi
+
+VIDEO_URL="$1"
+OUTPUT_DIR="./pipeline_output"
+TRANSCRIPTION_FILE="$OUTPUT_DIR/transcription.txt"
+TRANSLATION_FILE="$OUTPUT_DIR/translation.txt"
+SUMMARY_FILE="$OUTPUT_DIR/summary.txt"
+
+# Create output directory
+mkdir -p "$OUTPUT_DIR"
+
+echo "🚀 Starting Media Processing Pipeline"
+echo "📹 Video URL: $VIDEO_URL"
+echo "📁 Output directory: $OUTPUT_DIR"
+
+# Step 1: Download the video
+echo "⬇️  Step 1: Downloading video..."
+python main.py --url "$VIDEO_URL" --output "$OUTPUT_DIR"
+
+# Find the downloaded video file (assuming it's the most recent .mp4 or similar)
+VIDEO_FILE=$(find "$OUTPUT_DIR" -type f \( -name "*.mp4" -o -name "*.webm" -o -name "*.mkv" \) -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2-)
+
+if [ -z "$VIDEO_FILE" ]; then
+    echo "❌ Error: No video file found in $OUTPUT_DIR"
+    exit 1
+fi
+
+echo "✅ Video downloaded: $VIDEO_FILE"
+
+# Step 2: Transcribe the video
+echo "🎙️  Step 2: Transcribing video..."
+JSON_TRANSCRIPTION="$OUTPUT_DIR/transcription.json"
+python transcribe_video.py "$VIDEO_FILE" --output "$JSON_TRANSCRIPTION"
+
+# Extract plain text from JSON transcription
+if [ -f "$JSON_TRANSCRIPTION" ]; then
+    python -c "
+import json
+with open('$JSON_TRANSCRIPTION', 'r', encoding='utf-8') as f:
+    data = json.load(f)
+with open('$TRANSCRIPTION_FILE', 'w', encoding='utf-8') as f:
+    f.write(data['text'])
+"
+    echo "✅ Transcription saved: $TRANSCRIPTION_FILE"
+else
+    echo "❌ Error: Transcription JSON not found"
+    exit 1
+fi
+
+# Step 3: Translate the transcription
+echo "🌐 Step 3: Translating transcription to English..."
+python translate_text.py "$TRANSCRIPTION_FILE" en --output "$TRANSLATION_FILE"
+
+if [ -f "$TRANSLATION_FILE" ]; then
+    echo "✅ Translation saved: $TRANSLATION_FILE"
+else
+    echo "❌ Error: Translation failed"
+    exit 1
+fi
+
+# Step 4: Summarize the translated content
+echo "📝 Step 4: Summarizing translated content..."
+python -c "
+import sys
+sys.path.insert(0, '.')
+from src.summarizer import ContentProcessor
+
+# Read the translated text
+with open('$TRANSLATION_FILE', 'r', encoding='utf-8') as f:
+    translated_text = f.read().strip()
+
+if translated_text:
+    # Initialize summarizer and generate summary
+    summarizer = ContentProcessor()
+    summary = summarizer.summarize(translated_text)
+    
+    # Save summary
+    with open('$SUMMARY_FILE', 'w', encoding='utf-8') as f:
+        f.write(summary)
+    
+    print('✅ Summary saved: $SUMMARY_FILE')
+else:
+    echo '❌ Error: No translated text to summarize'
+    exit 1
+"
+
+if [ -f "$SUMMARY_FILE" ]; then
+    echo "✅ Summary saved: $SUMMARY_FILE"
+else
+    echo "❌ Error: Summarization failed"
+    exit 1
+fi
+
+echo ""
+echo "🎉 Pipeline completed successfully!"
+echo "📄 Transcription: $TRANSCRIPTION_FILE"
+echo "🌍 Translation: $TRANSLATION_FILE"
+echo "📝 Summary: $SUMMARY_FILE"
+echo ""
+echo "📊 Summary:"
+echo "   - Downloaded video: $(basename "$VIDEO_FILE")"
+echo "   - Transcription length: $(wc -l < "$TRANSCRIPTION_FILE") lines"
+echo "   - Translation length: $(wc -l < "$TRANSLATION_FILE") lines"
+echo "   - Summary generated: $(wc -l < "$SUMMARY_FILE") lines"

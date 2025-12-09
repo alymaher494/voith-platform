@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "media-processing-studio"
+version = "2.0.0"
+description = "A comprehensive media processing platform combining video downloading, format conversion, audio processing, and AI-powered content analysis"
+authors = [
+    {name = "Media Processing Studio Team"}
+]
+keywords = ["media", "video", "audio", "conversion", "downloader", "processing", "AI", "API"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Multimedia :: Video",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+    "Framework :: FastAPI",
+]
+dependencies = [
+    "yt-dlp>=2024.8.6",
+    "tqdm>=4.66.0",
+    "fastapi>=0.104.1",
+    "uvicorn[standard]>=0.24.0",
+    "langdetect>=1.0.9",
+    "deep_translator>=1.11.4",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["*"]
+exclude = ["tests*"]
