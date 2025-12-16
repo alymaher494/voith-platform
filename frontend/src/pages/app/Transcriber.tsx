@@ -1,14 +1,25 @@
 import { useState } from "react";
-import { Mic, Download, Languages, FileAudio, Copy, Check } from "lucide-react";
+import { Download, Languages, FileAudio, Copy, Check } from "lucide-react";
 
 // Pharaonic Components
-import { LivingBackground } from "../../components/layout/LivingBackground";
 import { CartoucheCard } from "../../components/pharaonic/CartoucheCard";
 import { ScepterButton } from "../../components/pharaonic/ScepterButton";
+
+// Guest Mode Components
+import { GuestModeBanner } from "../../components/ui/GuestModeBanner";
+import { PaywallModal } from "../../components/ui/PaywallModal";
+
+// Auth & Guest Tracking
+import { useAuth } from "../../hooks/useAuth";
+import { useGuestTracker } from "../../hooks/useGuestTracker";
+import { GUEST_MAX_SIZE, formatFileSize } from "../../config/limits";
 
 type JobStatus = "idle" | "processing" | "completed" | "error";
 
 export const Transcriber = () => {
+    const { isAuthenticated } = useAuth();
+    const { checkGuestLimit, incrementGuestUsage, getRemainingTrials } = useGuestTracker();
+
     const [file, setFile] = useState<File | null>(null);
     const [language, setLanguage] = useState("auto");
     const [model, setModel] = useState("medium");
@@ -17,9 +28,21 @@ export const Transcriber = () => {
     const [transcript, setTranscript] = useState("");
     const [copied, setCopied] = useState(false);
 
+    // Paywall Modal State
+    const [showPaywall, setShowPaywall] = useState(false);
+
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
-            setFile(e.target.files[0]);
+            const selectedFile = e.target.files[0];
+
+            // Check file size limit for guests
+            if (!isAuthenticated && selectedFile.size > GUEST_MAX_SIZE) {
+                // For file size, we could show a different message or paywall
+                setShowPaywall(true);
+                return;
+            }
+
+            setFile(selectedFile);
         }
     };
 
@@ -33,6 +56,12 @@ export const Transcriber = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!file) return;
+
+        // Check guest limit before processing
+        if (!isAuthenticated && checkGuestLimit()) {
+            setShowPaywall(true);
+            return;
+        }
 
         setStatus("processing");
         setProgress(0);
@@ -54,6 +83,11 @@ export const Transcriber = () => {
             if (result && result.text) {
                 setStatus("completed");
                 setTranscript(result.text);
+
+                // Increment usage for guests AFTER successful operation
+                if (!isAuthenticated) {
+                    incrementGuestUsage();
+                }
             } else {
                 setStatus("error");
             }
@@ -65,7 +99,28 @@ export const Transcriber = () => {
 
     return (
         <div className="relative min-h-[calc(100vh-100px)]">
+            {/* Paywall Modal */}
+            <PaywallModal
+                isOpen={showPaywall}
+                onClose={() => setShowPaywall(false)}
+            />
+
             <div className="space-y-8 relative z-10 p-4">
+                {/* Guest Mode Banner */}
+                {!isAuthenticated && (
+                    <GuestModeBanner />
+                )}
+
+                {/* Remaining Trials Indicator for Guests */}
+                {!isAuthenticated && getRemainingTrials() > 0 && (
+                    <div className="text-center">
+                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-gold/10 border border-gold/30 rounded-full text-sm text-gold">
+                            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                            {getRemainingTrials()} free trial remaining today
+                        </span>
+                    </div>
+                )}
+
                 <div className="text-center space-y-2">
                     <h1 className="text-4xl font-heading font-bold text-gold drop-shadow-md">The Scribe's Chamber</h1>
                     <p className="text-sand max-w-2xl mx-auto">
@@ -98,6 +153,9 @@ export const Transcriber = () => {
                                         </p>
                                         <p className="text-sm text-sand font-mono uppercase tracking-widest opacity-70">
                                             MP3 • WAV • MP4
+                                            {!isAuthenticated && (
+                                                <span className="block mt-1 text-gold/70">Max {formatFileSize(GUEST_MAX_SIZE)} for guests</span>
+                                            )}
                                         </p>
                                     </label>
                                 </div>

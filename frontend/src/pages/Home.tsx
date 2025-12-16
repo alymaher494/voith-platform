@@ -5,6 +5,34 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../co
 import { ArrowRight } from "lucide-react";
 import heroImage from "../assets/hero-thoth.png";
 
+// Service card configuration with links
+const SERVICES = [
+    {
+        icon: "𓉐",
+        title: "The Gatherer",
+        description: "Extract wisdom from any realm. Download high-fidelity streams from YouTube, Vimeo, and 800+ sources.",
+        path: "/services/download"
+    },
+    {
+        icon: "𓆣",
+        title: "The Alchemist",
+        description: "Transmute media forms instantly. Convert and compress video & audio without losing their essence.",
+        path: "/services/convert"
+    },
+    {
+        icon: "𓏟",
+        title: "The Divine Scribe",
+        description: "Turn spoken words into eternal scrolls. AI-powered transcription with precise word-level timestamps.",
+        path: "/services/transcribe"
+    },
+    {
+        icon: "𓁹",
+        title: "The Rosetta Stone",
+        description: "Bridge the tongues of nations. Translate your transcripts into multiple languages for global enlightenment.",
+        path: "/services/transcribe" // Links to transcribe for now since translation is part of it
+    },
+];
+
 export const Home = () => {
     return (
         <div className="relative min-h-screen flex flex-col">
@@ -24,10 +52,10 @@ export const Home = () => {
                         Transmute video, audio, and text with the power of Thoth.
                         A unified platform for downloading, converting, and analyzing content.
                     </p>
-                    <div className="flex gap-4">
-                        <Link to="/login">
+                    <div className="flex flex-wrap gap-4">
+                        <Link to="/services">
                             <Button size="lg" className="text-lg px-8">
-                                Enter the Temple <ArrowRight className="ml-2 w-5 h-5" />
+                                Explore Tools <ArrowRight className="ml-2 w-5 h-5" />
                             </Button>
                         </Link>
                         <Link to="/register">
@@ -35,6 +63,15 @@ export const Home = () => {
                                 Get Started Free
                             </Button>
                         </Link>
+                    </div>
+                    {/* Guest Trial Badge */}
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-gold/10 border border-gold/30 rounded-full text-sm">
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        </span>
+                        <span className="text-sand">Try free:</span>
+                        <span className="text-gold font-medium">1 free trial / day</span>
                     </div>
                 </motion.div>
 
@@ -66,7 +103,7 @@ export const Home = () => {
                 </div>
             </section>
 
-            {/* Features Grid */}
+            {/* Features Grid - Now with Links */}
             <section className="container mx-auto px-4 py-24">
                 <div className="text-center mb-16 space-y-4">
                     <h2 className="text-3xl md:text-4xl font-heading font-bold text-gold">The Sacred Tools</h2>
@@ -79,47 +116,29 @@ export const Home = () => {
                     transition={{ duration: 0.8 }}
                     className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto"
                 >
-                    <FeatureCard
-                        icon={
-                            <span className="text-6xl text-[#d1ae76]" style={{
-                                textShadow: "1px 1px 0 #927952, 2px 2px 0 #927952, 3px 3px 0 #927952, 4px 4px 0 #927952, 5px 5px 10px rgba(0,0,0,0.5)",
-                                filter: "drop-shadow(0 0 5px rgba(209, 174, 118, 0.3))"
-                            }}>𓉐</span>
-                        }
-                        title="The Gatherer"
-                        description="Extract wisdom from any realm. Download high-fidelity streams from YouTube, Vimeo, and 800+ sources."
-                    />
-                    <FeatureCard
-                        icon={
-                            <span className="text-6xl text-[#d1ae76]" style={{
-                                textShadow: "1px 1px 0 #927952, 2px 2px 0 #927952, 3px 3px 0 #927952, 4px 4px 0 #927952, 5px 5px 10px rgba(0,0,0,0.5)",
-                                filter: "drop-shadow(0 0 5px rgba(209, 174, 118, 0.3))"
-                            }}>𓆣</span>
-                        }
-                        title="The Alchemist"
-                        description="Transmute media forms instantly. Convert and compress video & audio without losing their essence."
-                    />
-                    <FeatureCard
-                        icon={
-                            <span className="text-6xl text-[#d1ae76]" style={{
-                                textShadow: "1px 1px 0 #927952, 2px 2px 0 #927952, 3px 3px 0 #927952, 4px 4px 0 #927952, 5px 5px 10px rgba(0,0,0,0.5)",
-                                filter: "drop-shadow(0 0 5px rgba(209, 174, 118, 0.3))"
-                            }}>𓏟</span>
-                        }
-                        title="The Divine Scribe"
-                        description="Turn spoken words into eternal scrolls. AI-powered transcription with precise word-level timestamps."
-                    />
-                    <FeatureCard
-                        icon={
-                            <span className="text-6xl text-[#d1ae76]" style={{
-                                textShadow: "1px 1px 0 #927952, 2px 2px 0 #927952, 3px 3px 0 #927952, 4px 4px 0 #927952, 5px 5px 10px rgba(0,0,0,0.5)",
-                                filter: "drop-shadow(0 0 5px rgba(209, 174, 118, 0.3))"
-                            }}>𓁹</span>
-                        }
-                        title="The Rosetta Stone"
-                        description="Bridge the tongues of nations. Translate your transcripts into multiple languages for global enlightenment."
-                    />
+                    {SERVICES.map((service) => (
+                        <FeatureCard
+                            key={service.title}
+                            icon={
+                                <span className="text-6xl text-[#d1ae76]" style={{
+                                    textShadow: "1px 1px 0 #927952, 2px 2px 0 #927952, 3px 3px 0 #927952, 4px 4px 0 #927952, 5px 5px 10px rgba(0,0,0,0.5)",
+                                    filter: "drop-shadow(0 0 5px rgba(209, 174, 118, 0.3))"
+                                }}>{service.icon}</span>
+                            }
+                            title={service.title}
+                            description={service.description}
+                            path={service.path}
+                        />
+                    ))}
                 </motion.div>
+
+                {/* View All Link */}
+                <div className="text-center mt-12">
+                    <Link to="/services" className="inline-flex items-center gap-2 text-gold hover:text-gold-light transition-colors font-medium">
+                        View All Services
+                        <ArrowRight className="w-4 h-4" />
+                    </Link>
+                </div>
             </section>
 
             {/* CTA Section */}
@@ -143,18 +162,25 @@ export const Home = () => {
     );
 };
 
-const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) => (
-    <Card className="bg-temple/50 backdrop-blur-sm border-gold/10 hover:border-gold/40 group">
-        <CardHeader>
-            <div className="mb-4 p-3 bg-obsidian rounded-lg w-fit group-hover:shadow-[0_0_15px_rgba(209,174,118,0.3)] transition-all">
-                {icon}
-            </div>
-            <CardTitle>{title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-            <CardDescription className="text-base">{description}</CardDescription>
-        </CardContent>
-    </Card>
+// Updated FeatureCard with Link
+const FeatureCard = ({ icon, title, description, path }: { icon: React.ReactNode, title: string, description: string, path: string }) => (
+    <Link to={path} className="block group">
+        <Card className="bg-temple/50 backdrop-blur-sm border-gold/10 hover:border-gold/40 group-hover:shadow-[0_0_30px_rgba(209,174,118,0.1)] transition-all duration-300 h-full">
+            <CardHeader>
+                <div className="mb-4 p-3 bg-obsidian rounded-lg w-fit group-hover:shadow-[0_0_15px_rgba(209,174,118,0.3)] transition-all">
+                    {icon}
+                </div>
+                <CardTitle className="group-hover:text-gold transition-colors">{title}</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <CardDescription className="text-base">{description}</CardDescription>
+                {/* Always visible on mobile (opacity-100), fade in on desktop hover */}
+                <div className="mt-4 flex items-center gap-2 text-gold text-sm font-medium opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                    Try Now <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+            </CardContent>
+        </Card>
+    </Link>
 );
 
 const StatItem = ({ number, label }: { number: string, label: string }) => (

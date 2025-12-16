@@ -5,9 +5,9 @@ import logoIcon from "../../assets/logo-icon.png";
 
 const NAV_ITEMS = [
     { icon: LayoutDashboard, label: "Sanctum", path: "/dashboard" },
-    { icon: Download, label: "The Gatherer", path: "/dashboard/downloader" },
-    { icon: FileVideo, label: "The Alchemist", path: "/dashboard/converter" },
-    { icon: Mic, label: "The Scribe", path: "/dashboard/transcriber" },
+    { icon: Download, label: "The Gatherer", path: "/services/download" },
+    { icon: FileVideo, label: "The Alchemist", path: "/services/convert" },
+    { icon: Mic, label: "The Scribe", path: "/services/transcribe" },
     { icon: FolderOpen, label: "The Archives", path: "/dashboard/files" },
     { icon: Settings, label: "Temple Rites", path: "/dashboard/settings" },
 ];

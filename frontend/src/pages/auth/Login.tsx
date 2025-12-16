@@ -24,7 +24,7 @@ export const Login = () => {
             if (error) throw error;
 
             if (data.session) {
-                navigate('/dashboard/downloader');
+                navigate('/services/download');
             }
         } catch (err: any) {
             setError(err.message || 'Failed to sign in');
@@ -35,9 +35,9 @@ export const Login = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-obsidian text-papyrus p-4">
-            <div className="w-full max-w-md bg-obsidian-light p-8 rounded-lg border border-gold/20 shadow-2xl">
+            <div className="w-full max-w-md bg-temple p-8 rounded-lg border border-gold/20 shadow-2xl">
                 <div className="text-center mb-8">
-                    <h1 className="text-3xl font-serif text-gold mb-2">Welcome Back</h1>
+                    <h1 className="text-3xl font-heading text-gold mb-2">Welcome Back</h1>
                     <p className="text-papyrus/60">Sign in to access your vault</p>
                 </div>
 
@@ -57,7 +57,7 @@ export const Login = () => {
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full bg-obsidian border border-gold/20 rounded pl-10 pr-4 py-2 focus:border-gold focus:outline-none transition-colors"
+                                className="w-full bg-obsidian border border-gold/20 rounded pl-10 pr-4 py-2 focus:border-gold focus:ring-2 focus:ring-gold/50 focus:outline-none transition-colors"
                                 placeholder="scribe@temple.com"
                                 required
                             />
@@ -72,7 +72,7 @@ export const Login = () => {
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full bg-obsidian border border-gold/20 rounded pl-10 pr-4 py-2 focus:border-gold focus:outline-none transition-colors"
+                                className="w-full bg-obsidian border border-gold/20 rounded pl-10 pr-4 py-2 focus:border-gold focus:ring-2 focus:ring-gold/50 focus:outline-none transition-colors"
                                 placeholder="••••••••"
                                 required
                             />
@@ -90,7 +90,7 @@ export const Login = () => {
 
                 <div className="mt-6 text-center text-sm text-papyrus/60">
                     Don't have an account?{' '}
-                    <Link to="/register" className="text-gold hover:text-gold-light font-medium">
+                    <Link to="/register" className="text-gold hover:text-gold-light font-medium underline underline-offset-4 transition-colors">
                         Join the Order
                     </Link>
                 </div>

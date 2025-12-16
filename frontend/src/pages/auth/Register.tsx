@@ -31,7 +31,7 @@ export const Register = () => {
             if (error) throw error;
 
             if (data.session) {
-                navigate('/dashboard/downloader');
+                navigate('/services/download');
             } else if (data.user) {
                 // Check if email confirmation is required
                 setError('Registration successful! Please check your email to verify your account.');
@@ -66,7 +66,7 @@ export const Register = () => {
                             type="text"
                             value={fullName}
                             onChange={(e) => setFullName(e.target.value)}
-                            className="w-full bg-obsidian border border-gold/20 rounded pl-10 pr-4 py-2 focus:border-gold focus:outline-none transition-colors text-papyrus"
+                            className="w-full bg-obsidian border border-gold/20 rounded pl-10 pr-4 py-2 focus:border-gold focus:ring-2 focus:ring-gold/50 focus:outline-none transition-colors text-papyrus"
                             placeholder="Full Name"
                             required
                         />
@@ -78,7 +78,7 @@ export const Register = () => {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full bg-obsidian border border-gold/20 rounded pl-10 pr-4 py-2 focus:border-gold focus:outline-none transition-colors text-papyrus"
+                            className="w-full bg-obsidian border border-gold/20 rounded pl-10 pr-4 py-2 focus:border-gold focus:ring-2 focus:ring-gold/50 focus:outline-none transition-colors text-papyrus"
                             placeholder="Email Address"
                             required
                         />
@@ -90,7 +90,7 @@ export const Register = () => {
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full bg-obsidian border border-gold/20 rounded pl-10 pr-4 py-2 focus:border-gold focus:outline-none transition-colors text-papyrus"
+                            className="w-full bg-obsidian border border-gold/20 rounded pl-10 pr-4 py-2 focus:border-gold focus:ring-2 focus:ring-gold/50 focus:outline-none transition-colors text-papyrus"
                             placeholder="Password"
                             required
                         />

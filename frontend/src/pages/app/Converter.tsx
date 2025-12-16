@@ -1,22 +1,43 @@
 import { useState } from "react";
-import { Upload, FileVideo, CheckCircle, Loader2, Download, RefreshCcw } from "lucide-react";
+import { Upload, CheckCircle, Loader2, Download, RefreshCcw } from "lucide-react";
 
 // Pharaonic Components
-import { LivingBackground } from "../../components/layout/LivingBackground";
 import { CartoucheCard } from "../../components/pharaonic/CartoucheCard";
 import { ScepterButton } from "../../components/pharaonic/ScepterButton";
+
+// Guest Mode Components
+import { GuestModeBanner } from "../../components/ui/GuestModeBanner";
+import { PaywallModal } from "../../components/ui/PaywallModal";
+
+// Auth & Guest Tracking
+import { useAuth } from "../../hooks/useAuth";
+import { useGuestTracker } from "../../hooks/useGuestTracker";
+import { GUEST_MAX_SIZE, formatFileSize } from "../../config/limits";
 
 type JobStatus = "idle" | "processing" | "completed" | "error";
 
 export const Converter = () => {
+    const { isAuthenticated } = useAuth();
+    const { checkGuestLimit, incrementGuestUsage, getRemainingTrials } = useGuestTracker();
+
     const [file, setFile] = useState<File | null>(null);
     const [outputFormat, setOutputFormat] = useState("mp4");
     const [status, setStatus] = useState<JobStatus>("idle");
-    const [progress, setProgress] = useState(0);
+
+    // Paywall Modal State
+    const [showPaywall, setShowPaywall] = useState(false);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
-            setFile(e.target.files[0]);
+            const selectedFile = e.target.files[0];
+
+            // Check file size limit for guests
+            if (!isAuthenticated && selectedFile.size > GUEST_MAX_SIZE) {
+                setShowPaywall(true);
+                return;
+            }
+
+            setFile(selectedFile);
         }
     };
 
@@ -24,8 +45,13 @@ export const Converter = () => {
         e.preventDefault();
         if (!file) return;
 
+        // Check guest limit before processing
+        if (!isAuthenticated && checkGuestLimit()) {
+            setShowPaywall(true);
+            return;
+        }
+
         setStatus("processing");
-        setProgress(0);
 
         try {
             const { converterService } = await import("../../lib/api");
@@ -33,7 +59,11 @@ export const Converter = () => {
 
             if (response.data.success) {
                 setStatus("completed");
-                setProgress(100);
+
+                // Increment usage for guests AFTER successful operation
+                if (!isAuthenticated) {
+                    incrementGuestUsage();
+                }
             } else {
                 setStatus("error");
             }
@@ -45,7 +75,26 @@ export const Converter = () => {
 
     return (
         <div className="relative min-h-[calc(100vh-100px)]">
+            {/* Paywall Modal */}
+            <PaywallModal
+                isOpen={showPaywall}
+                onClose={() => setShowPaywall(false)}
+            />
+
             <div className="space-y-8 relative z-10 p-4">
+                {/* Guest Mode Banner */}
+                {!isAuthenticated && <GuestModeBanner />}
+
+                {/* Remaining Trials Indicator for Guests */}
+                {!isAuthenticated && getRemainingTrials() > 0 && (
+                    <div className="text-center">
+                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-gold/10 border border-gold/30 rounded-full text-sm text-gold">
+                            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                            {getRemainingTrials()} free trial remaining today
+                        </span>
+                    </div>
+                )}
+
                 <div className="text-center space-y-2">
                     <h1 className="text-4xl font-heading font-bold text-gold drop-shadow-md">The Alchemist</h1>
                     <p className="text-sand max-w-2xl mx-auto">
@@ -78,6 +127,9 @@ export const Converter = () => {
                                         </p>
                                         <p className="text-sm text-sand font-mono uppercase tracking-widest opacity-70">
                                             MP4 • AVI • MKV • WAV
+                                            {!isAuthenticated && (
+                                                <span className="block mt-1 text-gold/70">Max {formatFileSize(GUEST_MAX_SIZE)} for guests</span>
+                                            )}
                                         </p>
                                     </label>
                                 </div>

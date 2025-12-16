@@ -1,17 +1,10 @@
-import React from 'react';
 import { motion } from 'framer-motion';
-import { cn } from '../../lib/utils'; // Assuming a utils file exists for tailwind-merge, or I'll implement a simple one if needed. Typically shadcn uses this. 
-// If utils doesn't exist, I'll use template literals properly. 
-// Checking context, there IS a `lib/utils` usually in these setups? 
-// Actually, I should check if `lib/utils` exists or just use standard string concat for safety.
-// `class-variance-authority` and `clsx` and `tailwind-merge` are in package.json (Step 97).
-// User codebase usually has `lib/utils.ts`. I'll assume it exists or create a basic import.
-// For safety, I will define `cn` locally if I can't verify, BUT typically it's better to stick to standard React props.
-// I will use `clsx` and `tailwind-merge` directly if I'm not sure, but to be safe and consistent with typical "shadcn" like requests, I'll assume standard props.
+import type { HTMLMotionProps } from 'framer-motion';
 
-interface ScepterButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ScepterButtonProps extends Omit<HTMLMotionProps<"button">, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'children'> {
     variant?: 'primary' | 'secondary' | 'ghost';
     isLoading?: boolean;
+    children?: React.ReactNode;
 }
 
 export const ScepterButton = ({

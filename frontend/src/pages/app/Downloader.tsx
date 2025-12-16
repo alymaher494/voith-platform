@@ -2,13 +2,23 @@ import { useState } from "react";
 import { Download, Video, Music, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 
 // Pharaonic Components
-import { LivingBackground } from "../../components/layout/LivingBackground";
 import { CartoucheCard } from "../../components/pharaonic/CartoucheCard";
 import { ScepterButton } from "../../components/pharaonic/ScepterButton";
+
+// Guest Mode Components
+import { GuestModeBanner } from "../../components/ui/GuestModeBanner";
+import { PaywallModal } from "../../components/ui/PaywallModal";
+
+// Auth & Guest Tracking
+import { useAuth } from "../../hooks/useAuth";
+import { useGuestTracker } from "../../hooks/useGuestTracker";
 
 type JobStatus = "idle" | "processing" | "completed" | "error";
 
 export const Downloader = () => {
+    const { isAuthenticated } = useAuth();
+    const { checkGuestLimit, incrementGuestUsage, getRemainingTrials } = useGuestTracker();
+
     const [url, setUrl] = useState("");
     const [format, setFormat] = useState("video");
     const [quality, setQuality] = useState("best");
@@ -16,9 +26,18 @@ export const Downloader = () => {
     const [progress, setProgress] = useState(0);
     const [result, setResult] = useState<any>(null);
 
+    // Paywall Modal State
+    const [showPaywall, setShowPaywall] = useState(false);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!url) return;
+
+        // Check guest limit before processing
+        if (!isAuthenticated && checkGuestLimit()) {
+            setShowPaywall(true);
+            return;
+        }
 
         setStatus("processing");
         setProgress(0);
@@ -50,6 +69,11 @@ export const Downloader = () => {
                                 duration: "Done",
                                 downloadUrl: `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/downloads/${job.filename}`
                             });
+
+                            // Increment usage for guests AFTER successful operation
+                            if (!isAuthenticated) {
+                                incrementGuestUsage();
+                            }
                         } else if (job.status === 'error') {
                             clearInterval(interval);
                             setStatus("error");
@@ -70,7 +94,26 @@ export const Downloader = () => {
 
     return (
         <div className="relative min-h-[calc(100vh-100px)]">
+            {/* Paywall Modal */}
+            <PaywallModal
+                isOpen={showPaywall}
+                onClose={() => setShowPaywall(false)}
+            />
+
             <div className="space-y-8 relative z-10 p-4">
+                {/* Guest Mode Banner */}
+                {!isAuthenticated && <GuestModeBanner />}
+
+                {/* Remaining Trials Indicator for Guests */}
+                {!isAuthenticated && getRemainingTrials() > 0 && (
+                    <div className="text-center">
+                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-gold/10 border border-gold/30 rounded-full text-sm text-gold">
+                            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                            {getRemainingTrials()} free trial remaining today
+                        </span>
+                    </div>
+                )}
+
                 <div className="text-center space-y-2">
                     <h1 className="text-4xl font-heading font-bold text-gold drop-shadow-md">The Gatherer</h1>
                     <p className="text-sand max-w-2xl mx-auto">
