@@ -75,7 +75,7 @@ export const Transcriber = () => {
                 setProgress(prev => Math.min(prev + 5, 95));
             }, 600);
 
-            const result = await processMedia(file, language);
+            const result = await processMedia(file, language, model);
 
             clearInterval(progressInterval);
             setProgress(100);

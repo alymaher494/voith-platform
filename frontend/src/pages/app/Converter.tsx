@@ -23,6 +23,7 @@ export const Converter = () => {
     const [file, setFile] = useState<File | null>(null);
     const [outputFormat, setOutputFormat] = useState("mp4");
     const [status, setStatus] = useState<JobStatus>("idle");
+    const [result, setResult] = useState<any>(null);
 
     // Paywall Modal State
     const [showPaywall, setShowPaywall] = useState(false);
@@ -38,6 +39,8 @@ export const Converter = () => {
             }
 
             setFile(selectedFile);
+            setResult(null);
+            setStatus("idle");
         }
     };
 
@@ -52,6 +55,7 @@ export const Converter = () => {
         }
 
         setStatus("processing");
+        setResult(null);
 
         try {
             const { converterService } = await import("../../lib/api");
@@ -59,6 +63,7 @@ export const Converter = () => {
 
             if (response.data.success) {
                 setStatus("completed");
+                setResult(response.data);
 
                 // Increment usage for guests AFTER successful operation
                 if (!isAuthenticated) {
@@ -171,7 +176,7 @@ export const Converter = () => {
                     <div className="lg:col-span-1">
                         <CartoucheCard title="Alchemy Status" className="h-full">
                             <div className="flex flex-col h-full items-center justify-center space-y-8 min-h-[300px]">
-                                <div className="text-center">
+                                <div className="text-center w-full">
                                     {status === "idle" && (
                                         <>
                                             <div className="w-24 h-24 mx-auto mb-6 rounded-full border-2 border-gold/10 flex items-center justify-center">
@@ -201,7 +206,15 @@ export const Converter = () => {
                                                 </div>
                                             </div>
                                             <p className="text-green-400 font-heading tracking-widest mb-6">Transmutation Complete</p>
-                                            <ScepterButton variant="secondary" className="w-full">
+                                            <ScepterButton
+                                                variant="secondary"
+                                                className="w-full"
+                                                onClick={() => {
+                                                    const fileName = result?.output_file?.split('\\').pop()?.split('/').pop();
+                                                    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+                                                    window.open(`${apiUrl}/files/${fileName}`, '_blank');
+                                                }}
+                                            >
                                                 <Download className="w-4 h-4 mr-2" />
                                                 Collect Result
                                             </ScepterButton>

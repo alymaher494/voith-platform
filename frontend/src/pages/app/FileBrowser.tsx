@@ -3,7 +3,6 @@ import { FileVideo, FileAudio, FileText, Trash2, Download, Search, HardDrive, Sc
 
 // Pharaonic Components
 import { CartoucheCard } from "../../components/pharaonic/CartoucheCard";
-import { ScepterButton } from "../../components/pharaonic/ScepterButton";
 import { supabase } from "../../lib/supabase";
 
 // Types
