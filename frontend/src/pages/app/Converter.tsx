@@ -12,6 +12,7 @@ import { PaywallModal } from "../../components/ui/PaywallModal";
 // Auth & Guest Tracking
 import { useAuth } from "../../hooks/useAuth";
 import { useGuestTracker } from "../../hooks/useGuestTracker";
+import { API_BASE_URL } from "../../lib/api";
 import { GUEST_MAX_SIZE, formatFileSize } from "../../config/limits";
 
 type JobStatus = "idle" | "processing" | "completed" | "error";
@@ -211,8 +212,7 @@ export const Converter = () => {
                                                 className="w-full"
                                                 onClick={() => {
                                                     const fileName = result?.output_file?.split('\\').pop()?.split('/').pop();
-                                                    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-                                                    window.open(`${apiUrl}/files/${fileName}`, '_blank');
+                                                    window.open(`${API_BASE_URL}/files/${fileName}`, '_blank');
                                                 }}
                                             >
                                                 <Download className="w-4 h-4 mr-2" />

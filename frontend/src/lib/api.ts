@@ -2,12 +2,11 @@ import axios from 'axios';
 import { supabase } from './supabase';
 
 // API Configuration
-// For Hugging Face Spaces: https://{username}-{spacename}.hf.space
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 const HF_TOKEN = import.meta.env.VITE_HF_TOKEN || '';
 
 export const api = axios.create({
-    baseURL: API_URL,
+    baseURL: API_BASE_URL,
     headers: {
         'Content-Type': 'application/json',
     },

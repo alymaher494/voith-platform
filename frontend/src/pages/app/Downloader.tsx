@@ -12,6 +12,7 @@ import { PaywallModal } from "../../components/ui/PaywallModal";
 // Auth & Guest Tracking
 import { useAuth } from "../../hooks/useAuth";
 import { useGuestTracker } from "../../hooks/useGuestTracker";
+import { API_BASE_URL } from "../../lib/api";
 
 type JobStatus = "idle" | "processing" | "completed" | "error";
 
@@ -67,7 +68,7 @@ export const Downloader = () => {
                                 filename: job.filename,
                                 size: "Ready",
                                 duration: "Done",
-                                downloadUrl: `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/downloads/${job.filename}`
+                                downloadUrl: `${API_BASE_URL}/downloads/${job.filename}`
                             });
 
                             // Increment usage for guests AFTER successful operation
