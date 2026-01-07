@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
+import { DebugEnv } from "./components/DebugEnv";
 
 // Lazy load layouts
 const LandingLayout = lazy(() => import("./layouts/LandingLayout").then(m => ({ default: m.LandingLayout })));
@@ -67,6 +68,7 @@ function App() {
             <Route path="settings" element={<Settings />} />
           </Route>
         </Routes>
+        <DebugEnv />
       </Suspense>
     </BrowserRouter>
   );
