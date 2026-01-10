@@ -41,18 +41,9 @@ export const downloaderService = {
             audio_only: audioOnly
         });
     },
-    getJobStatus: async (_jobId: string) => {
-        // The current backend does not support job status polling.
-        // Returning a simulated success to avoid frontend errors.
-        console.warn("⚠️ Job status polling is not supported by the current backend.");
-        return {
-            data: {
-                status: 'completed',
-                message: 'Processing handled by background task',
-                progress: 100,
-                filename: 'downloaded-file' // Placeholder as backend doesn't return it yet
-            }
-        };
+    getJobStatus: async (taskId: string) => {
+        // Call the actual backend progress endpoint
+        return api.get(`/downloader/progress/${taskId}`);
     }
 };
 

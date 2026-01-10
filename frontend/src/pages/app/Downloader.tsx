@@ -50,12 +50,12 @@ export const Downloader = () => {
             const response = await downloaderService.download(url, format, quality, format === "audio");
 
             if (response.data.success) {
-                const jobId = response.data.job_id;
+                const taskId = response.data.task_id;
 
                 // Start polling
                 const interval = setInterval(async () => {
                     try {
-                        const statusRes = await downloaderService.getJobStatus(jobId);
+                        const statusRes = await downloaderService.getJobStatus(taskId);
                         const job = statusRes.data;
 
                         setProgress(job.progress);
@@ -68,7 +68,7 @@ export const Downloader = () => {
                                 filename: job.filename,
                                 size: "Ready",
                                 duration: "Done",
-                                downloadUrl: `${API_BASE_URL}/downloads/${job.filename}`
+                                downloadUrl: `${API_BASE_URL}/downloader/download/${taskId}/file`
                             });
 
                             // Increment usage for guests AFTER successful operation
