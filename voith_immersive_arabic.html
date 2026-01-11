@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voith | حكمة الأجداد بذكاء المستقبل</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;500;700;900&family=Outfit:wght@600;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --dark: #050505;
+            --obsidian: #0a0a0a;
+            --gold: #d1ae76;
+            --gold-bright: #ffdfa3;
+            --white: #ffffff;
+            --grey: #949494;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(209, 174, 118, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--white);
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            overflow: hidden;
+            /* Controlled by slide logic */
+        }
+
+        /* Slide Container */
+        .presentation {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        section.slide {
+            height: 100vh;
+            width: 100vw;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5%;
+            overflow: hidden;
+            page-break-after: always;
+        }
+
+        /* Decorative Background */
+        .bg-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 1) 0%, rgba(20, 20, 20, 1) 100%);
+        }
+
+        .bg-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            opacity: 0.1;
+            z-index: 2;
+        }
+
+        .hieroglyph-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            background-image: url('https://www.transparenttextures.com/patterns/egyptian-papyrus.png');
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* Content Layout */
+        .content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1400px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .text-box {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            animation: fadeInRight 1s ease-out;
+        }
+
+        .visual-box {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeInLeft 1s ease-out;
+        }
+
+        .visual-box img {
+            max-width: 100%;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(209, 174, 118, 0.15);
+        }
+
+        /* Typography */
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--gold);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+
+        .badge::after {
+            content: '';
+            width: 50px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            background: linear-gradient(to bottom, #fff, var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--gold-bright);
+            font-weight: 500;
+        }
+
+        p {
+            font-size: 1.4rem;
+            color: var(--grey);
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .script-quote {
+            border-right: 4px solid var(--gold);
+            padding-right: 1.5rem;
+            margin-top: 2rem;
+            font-style: italic;
+            color: var(--white);
+            font-size: 1.2rem;
+        }
+
+        ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        ul li {
+            position: relative;
+            padding-right: 3rem;
+            font-size: 1.4rem;
+        }
+
+        ul li::before {
+            content: '𓃠';
+            /* Cat/Bastet symbol for intuition/AI */
+            position: absolute;
+            right: 0;
+            color: var(--gold);
+            font-size: 1.8rem;
+            top: -5px;
+        }
+
+        ul li strong {
+            color: var(--gold);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Animations */
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Component: Cards */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .feature-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .feature-card h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        /* Fixed Footer/NavBar */
+        .presentation-footer {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            z-index: 100;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            color: var(--gold);
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        /* RTL Specifics */
+        [dir="rtl"] .badge::after {
+            margin-right: 0;
+            margin-left: 0;
+        }
+
+        [dir="rtl"] .badge::before {
+            content: '';
+            width: 50px;
+            height: 1px;
+            background: var(--gold);
+            margin-left: 1rem;
+        }
+
+        /* Center Content Slide */
+        .slide-center .content {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+
+        .slide-center .text-box {
+            align-items: center;
+        }
+
+        /* Export Button */
+        .export-hint {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background: var(--gold);
+            color: var(--dark);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 800;
+            z-index: 1000;
+            font-size: 0.8rem;
+        }
+
+        @media print {
+
+            .presentation-footer,
+            .export-hint {
+                display: none;
+            }
+
+            section.slide {
+                height: 100vh;
+                width: 100vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="export-hint">Ctrl + P للتحويل إلى PDF (Landscape)</div>
+
+    <main class="presentation">
+
+        <!-- سريحة 1: المقدمة -->
+        <section class="slide">
+            <div class="bg-layer"></div>
+            <div class="bg-pattern"></div>
+            <div class="hieroglyph-overlay"></div>
+            <div class="container content">
+                <div class="text-box">
+                    <div class="badge">الهوية والرؤية</div>
+                    <h1>Voith</h1>
+                    <h2>حكمة الأجداد.. بذكاء المستقبل</h2>
+                    <p>أقدم لكم Voith.. المنصة التي تدمج عبقرية الماضي بقوة الذكاء الاصطناعي، لتمكين صناع المحتوى من
+                        بناء أهراماتهم الرقمية الخاصة.</p>
+                    <div class="script-quote">
+                        "منذ آلاف السنين، سيطر أجدادنا المصريون على المعرفة.. اليوم نحن نعيد إحياء هذه الروح بلغة
+                        العصر."
+                    </div>
+                </div>
+                <div class="visual-box">
+                    <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_thoth_cyber_pharaonic_1766146765194.png"
+                        alt="Thoth AI">
+                </div>
+            </div>
+        </section>
+
+        <!-- سريحة 2: المشكلة -->
+        <section class="slide">
+            <div class="bg-layer"></div>
+            <div class="bg-pattern"></div>
+            <div class="container content">
+                <div class="text-box">
+                    <div class="badge">المشكلة</div>
+                    <h1>كابوس صانع المحتوى</h1>
+                    <p>لصنع فيديو واحد، تحتاج للتنقل بين 5 منصات مختلفة. هذا يعني تشتتاً ذهنياً، وهدراً للوقت، وفواتير
+                        اشتراكات باهظة.</p>
+                    <ul>
+                        <li><strong>تشتت الأدوات</strong> فجوة كبيرة بين أدوات الكتابة، الصورة، والصوت.</li>
+                        <li><strong>قتل الإبداع</strong> أدوات الـ AI الحالية قوية لكنها معقدة ومفككة.</li>
+                        <li><strong>نزيف الوقت</strong> 40% من يوم المبدع يضيع في "إدارة الملفات" بدلاً من "الإبداع".
+                        </li>
+                    </ul>
+                </div>
+                <div class="visual-box">
+                    <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_digital_pain_labyrinth_1766146992997.png"
+                        alt="Content Crisis">
+                </div>
+            </div>
+        </section>
+
+        <!-- سريحة 3: الحل -->
+        <section class="slide">
+            <div class="bg-layer"></div>
+            <div class="bg-pattern"></div>
+            <div class="container content">
+                <div class="text-box">
+                    <div class="badge">الحل والمنتج</div>
+                    <h1>Ecosystem</h1>
+                    <h2>استوديو الإنتاج المتكامل (Hybrid Hub)</h2>
+                    <p>منصة واحدة مركزية تجمع كل ما يحتاجه المبدع، بواجهة بسيطة لا تتطلب أي خبرة تقنية.</p>
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <h3>Media</h3>
+                            <p>تحميل ومعالجة الوسائط</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Voice</h3>
+                            <p>استنساخ الصوت (Cloning)</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Vision</h3>
+                            <p>توليد الصور والفيديوهات</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Architect</h3>
+                            <p>مهندس المحتوى والسيناريو</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="visual-box">
+                    <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_digital_pyramid_ecosystem_1766147012510.png"
+                        alt="Digital Pyramid">
+                </div>
+            </div>
+        </section>
+
+        <!-- سريحة 4: القيمة المضافة -->
+        <section class="slide">
+            <div class="bg-layer"></div>
+            <div class="bg-pattern"></div>
+            <div class="container content">
+                <div class="text-box">
+                    <div class="badge">القيمة المضافة</div>
+                    <h1>لماذا Voith؟</h1>
+                    <p>حولنا الأوامر البرمجية المعقدة إلى واجهة بصرية جذابة تعزز الهوية الفرعونية.</p>
+                    <ul>
+                        <li><strong>التكلفة</strong> اشتراك واحد بدلاً من خمسة!</li>
+                        <li><strong>السهولة</strong> أتمتة كاملة للعمليات المعقدة.</li>
+                        <li><strong>الهوية</strong> تجربة مستخدم ملحمية تجعلك جزءاً من قصة الخلود.</li>
+                    </ul>
+                </div>
+                <div class="visual-box">
+                    <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_hub_ui_mockup_1766146370479.png"
+                        alt="UI Dashboard">
+                </div>
+            </div>
+        </section>
+
+        <!-- سريحة 5: استراتيجية النمو -->
+        <section class="slide">
+            <div class="bg-layer"></div>
+            <div class="bg-pattern"></div>
+            <div class="container content">
+                <div class="text-box">
+                    <div class="badge">استراتيجية النمو</div>
+                    <h1>Flywheel Effect</h1>
+                    <h2>كلما استخدمته.. أصبح أذكى</h2>
+                    <p>ميزتنا التنافسية تكمن في البيانات. كل عملية استخدام تدرب نماذجنا الذكية لتصبح أكثر دقة وفهماً
+                        للمستخدم العربي.</p>
+                    <div class="script-quote">
+                        خدمة أفضل → مستخدمين أكثر → بيانات أكثر → سيطرة على السوق
+                    </div>
+                </div>
+                <div class="visual-box">
+                    <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_market_opportunity_infographic_1766146388773.png"
+                        alt="Market Growth">
+                </div>
+            </div>
+        </section>
+
+        <!-- سريحة 6: نموذج العمل -->
+        <section class="slide">
+            <div class="bg-layer"></div>
+            <div class="bg-pattern"></div>
+            <div class="container content">
+                <div class="text-box">
+                    <div class="badge">نموذج العمل</div>
+                    <h1>Netflix للأدوات</h1>
+                    <ul>
+                        <li><strong>الاشتراك الموحد</strong> سعر شهري رمزي مقابل الوصول لكل المميزات.</li>
+                        <li><strong>المتجر الرقمي (قريباً)</strong> سوق لبيع المنتجات الرقمية المولدة بالـ AI داخل
+                            المنصة.</li>
+                    </ul>
+                </div>
+                <div class="visual-box">
+                    <div
+                        style="width: 100%; border: 2px dashed var(--gold); padding: 4rem; border-radius: 30px; text-align: center;">
+                        <h2 style="font-size: 3.5rem;">Mass Market</h2>
+                        <p style="color: var(--white);">استهداف السوق الشامل لصناع المحتوى</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- سريحة 7: الوضع الحالي -->
+        <section class="slide">
+            <div class="bg-layer"></div>
+            <div class="bg-pattern"></div>
+            <div class="container content">
+                <div class="text-box">
+                    <div class="badge">MVP & Traction</div>
+                    <h1>جاهزون للانطلاق</h1>
+                    <p>نحن لا نبيع مجرد أفكار. نحن في مرحلة الحد الأدنى للمنتج القابل للتطبيق (MVP).</p>
+                    <ul>
+                        <li><strong>Backend جاهز</strong> البنية التحتية البرمجية مكتملة.</li>
+                        <li><strong>أدوات فعالة</strong> تم اختبار معالجة الصور والنصوص والصوت بنجاح.</li>
+                        <li><strong>قابلية التوسع</strong> نظام مهيأ لاستيعاب الموجة الأولى من المستخدمين.</li>
+                    </ul>
+                </div>
+                <div class="visual-box">
+                    <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_target_audience_visual_1766146409753.png"
+                        alt="Traction">
+                </div>
+            </div>
+        </section>
+
+        <!-- سريحة 8: الخاتمة -->
+        <section class="slide slide-center">
+            <div class="bg-layer"
+                style="background: radial-gradient(circle at center, rgba(209, 174, 118, 0.2) 0%, var(--dark) 70%);">
+            </div>
+            <div class="bg-pattern"></div>
+            <div class="container content">
+                <div class="text-box">
+                    <div class="badge">Opportunity</div>
+                    <h1 style="font-size: 6rem; margin-bottom: 2rem;">رحلة الخلود الرقمي</h1>
+                    <p style="font-size: 2rem; color: var(--gold-bright);">انضموا إلينا في سد الفجوة بين عراقة الماضي
+                        وذكاء المستقبل.</p>
+                    <div style="margin-top: 3rem;">
+                        <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_pharaonic_future_city_1766147031132.png"
+                            style="width: 600px; border-radius: 20px;" alt="Future City">
+                    </div>
+                    <p style="margin-top: 2rem; color: var(--gold);">مشروع Voith | شكراً لكم.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="presentation-footer">
+        <button class="btn">السريحة السابقة</button>
+        <button class="btn">السريحة التالية</button>
+    </footer>
+
+</body>
+
+</html>

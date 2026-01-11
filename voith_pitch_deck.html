@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOITH Startup Pitch Deck</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --obsidian: #0a0a0a;
+            --gold: #d1ae76;
+            --gold-bright: #e5c99a;
+            --white: #ffffff;
+            --grey: #a0a0a0;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--obsidian);
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Outfit', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Slide Container */
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            padding: 4rem;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(209, 174, 118, 0.1);
+            page-break-after: always; /* For PDF export */
+        }
+
+        /* Background Graphics */
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 10% 20%, rgba(209, 174, 118, 0.05) 0%, transparent 40%);
+            z-index: 0;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .text-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .visual-content {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .visual-content img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5), 0 0 20px rgba(209, 174, 118, 0.2);
+            border: 1px solid rgba(209, 174, 118, 0.1);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--gold);
+            color: var(--obsidian);
+            font-weight: 800;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            width: fit-content;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(to bottom, #fff, var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: var(--grey);
+        }
+
+        ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        ul li {
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--white);
+            font-size: 1.1rem;
+        }
+
+        ul li::before {
+            content: '𓋹';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        strong {
+            color: var(--gold-bright);
+        }
+
+        /* Specific Layouts */
+        .title-slide {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+
+        .title-slide h1 {
+            font-size: 6rem;
+        }
+
+        /* Print Styles */
+        @media print {
+            .slide {
+                width: 297mm; /* Widescreen aspect */
+                height: 210mm;
+                border: none;
+            }
+            body {
+                background: #000;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Slide 1: Vision -->
+    <section class="slide">
+        <div class="content">
+            <div class="text-content">
+                <span class="badge">THE VISION</span>
+                <h1>VOITH</h1>
+                <h2>The Intelligence Layer for Modern Creators</h2>
+                <p>Redefining Content Production in the AI Era.</p>
+                <p><strong>Goal:</strong> To become the centralized operating system for the global creative economy, turning complex AI into an invisible assistant.</p>
+            </div>
+            <div class="visual-content">
+                <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_pitch_vision_slide_1766146353318.png" alt="Vision">
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: Problem -->
+    <section class="slide">
+        <div class="content">
+            <div class="text-content">
+                <span class="badge">THE PROBLEM</span>
+                <h1>Content is Broken.</h1>
+                <h2>The "Multi-Tool Tax" & Creative Burnout</h2>
+                <ul>
+                    <li><strong>Fragmentation:</strong> Creators waste 40% of time switching between 5+ AI tools.</li>
+                    <li><strong>Technical Friction:</strong> Tools built for engineers, not storytellers.</li>
+                    <li><strong>Time Leakage:</strong> Manual file management and platform jumping.</li>
+                </ul>
+            </div>
+            <div class="visual-content">
+                <div style="background: var(--glass); padding: 2rem; border-radius: 12px; border: 1px solid var(--gold);">
+                    <h3 style="color: var(--gold); margin-bottom: 1rem;">-40% Productivity</h3>
+                    <p style="color: #fff;">Lost in context switching every single day.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Solution -->
+    <section class="slide">
+        <div class="content">
+            <div class="text-content">
+                <span class="badge">THE SOLUTION</span>
+                <h1>VOITH HUB</h1>
+                <h2>One Platform. Total Creative Sovereignty.</h2>
+                <ul>
+                    <li><strong>Centralized Intelligence:</strong> Transcription, Conversion, & Planning in one dashboard.</li>
+                    <li><strong>Seamless Experience:</strong> Designed to hide the "technical wires."</li>
+                    <li><strong>Unified Assets:</strong> Media flows from raw inspiration to final master.</li>
+                </ul>
+            </div>
+            <div class="visual-content">
+                <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_hub_ui_mockup_1766146370479.png" alt="Hub Solution">
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Service Value -->
+    <section class="slide">
+        <div class="content">
+            <div class="text-content">
+                <span class="badge">SERVICE VALUE</span>
+                <h1>AI ASSISTANT</h1>
+                <h2>Beyond Technical Processing</h2>
+                <ul>
+                    <li><strong>Intelligent Ideation:</strong> Generate and refine ideas instantly.</li>
+                    <li><strong>Simplified Planning:</strong> Weeks of content prep reduced to minutes.</li>
+                    <li><strong>Invisible AI:</strong> Complex models turned into a daily creative partner.</li>
+                </ul>
+            </div>
+            <div class="visual-content">
+                <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_target_audience_visual_1766146409753.png" alt="AI Assistant">
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Value Prop -->
+    <section class="slide">
+        <div class="content">
+            <div class="text-content">
+                <span class="badge">VALUE PROPOSITION</span>
+                <h1>THE ADVANTAGE</h1>
+                <h2>Built for Speed. Designed for Impact.</h2>
+                <ul>
+                    <li><strong>Unified:</strong> One subscription, one interface.</li>
+                    <li><strong>Hyper-Productivity:</strong> 10x output via automation.</li>
+                    <li><strong>Premium:</strong> Centralized AI optimization for pro standards.</li>
+                    <li><strong>Frictionless:</strong> Zero learning curve for creative minds.</li>
+                </ul>
+            </div>
+            <div class="visual-content">
+                <div style="font-size: 3rem; color: var(--gold); font-weight: 800;">10X OUTPUT</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Audience -->
+    <section class="slide">
+        <div class="content">
+            <div class="text-content">
+                <span class="badge">TARGET AUDIENCE</span>
+                <h1>THE CREATORS</h1>
+                <h2>Capturing a Massive Underserved Market</h2>
+                <ul>
+                    <li><strong>Individual Creators:</strong> YouTubers, Podcasters, Influencers.</li>
+                    <li><strong>Marketing Agencies:</strong> High-volume, high-quality production.</li>
+                    <li><strong>Small Businesses:</strong> Founders acting as their own creative team.</li>
+                </ul>
+            </div>
+            <div class="visual-content">
+                <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_target_audience_visual_1766146409753.png" alt="Audience">
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: MVP Status -->
+    <section class="slide">
+        <div class="content">
+            <div class="text-content">
+                <span class="badge">MVP STATUS</span>
+                <h1>VALIDATED</h1>
+                <h2>Functional & Production-Ready</h2>
+                <ul>
+                    <li><strong>Core Implemented:</strong> Downloader, Converter, & Transcriber online.</li>
+                    <li><strong>Market Fit:</strong> High demand for integrated workflow solution.</li>
+                    <li><strong>Scalability:</strong> Modular architecture ready for V2 expansions.</li>
+                </ul>
+            </div>
+            <div class="visual-content">
+                <div style="border: 1px solid var(--gold); padding: 2rem; border-radius: 8px;">
+                    <h3 style="color: var(--gold);">CORE LOGIC ACTIVE</h3>
+                    <p>Downloader • Converter • Transcriber</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8: Market -->
+    <section class="slide">
+        <div class="content">
+            <div class="text-content">
+                <span class="badge">MARKET OPPORTUNITY</span>
+                <h1>$250B BOOM</h1>
+                <h2>The New Industrial Revolution</h2>
+                <ul>
+                    <li><strong>Market Cap:</strong> Expected to reach $480B by 2027.</li>
+                    <li><strong>The Adoption Gap:</strong> Huge demand for simplified AI interaction.</li>
+                    <li><strong>Monetization:</strong> Tiered SaaS with High-LTV enterprise potential.</li>
+                </ul>
+            </div>
+            <div class="visual-content">
+                <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_market_opportunity_infographic_1766146388773.png" alt="Market Opportunity">
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 9: Conclusion -->
+    <section class="slide">
+        <div class="content title-slide">
+            <div class="text-content">
+                <span class="badge">INVEST NOW</span>
+                <h1>WHY VOITH?</h1>
+                <h2>Join the Creative Revolution.</h2>
+                <div style="margin-top: 3rem; display: flex; justify-content: center; gap: 4rem;">
+                    <div>
+                        <h3 style="color: var(--gold);">$480B</h3>
+                        <p>Market Potential</p>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--gold);">10X</h3>
+                        <p>Efficiency Gain</p>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--gold);">MVP</h3>
+                        <p>Ready to Scale</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

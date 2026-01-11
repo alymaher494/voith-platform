@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOITH | ملحمة الخلود الرقمي</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;500;700;900&family=Outfit:wght@500;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --obsidian: #050505;
+            --charcoal: #0a0a0a;
+            --gold: #d1ae76;
+            --gold-light: #f5e1c0;
+            --gold-glow: #ffcf7d;
+            --white: #ffffff;
+            --grey: #a0a0a0;
+            --accent-blue: #00f2ff;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(209, 174, 118, 0.2);
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Essential Reset & Body */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        body {
+            background-color: var(--obsidian);
+            color: var(--white);
+            font-family: 'Noto Kufi Arabic', sans-serif;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Page Container - Scroll Snap */
+        .presentation {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        section.slide {
+            height: 100vh;
+            width: 100vw;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10% 10% 10%  10%;
+            overflow: hidden;
+            page-break-after: always;
+        }
+
+        /* Cinematic Background Layers */
+        .bg-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background: linear-gradient(180deg, rgba(5, 5, 5, 1) 0%, rgba(15, 15, 15, 1) 100%);
+        }
+
+        .bg-texture {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            opacity: 0.05;
+            z-index: 2;
+        }
+
+        .hieroglyph-scroll {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: url('https://www.transparenttextures.com/patterns/egyptian-papyrus.png');
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* Content Grid */
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1500px;
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .text-side {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .visual-side {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(0.95);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .visual-side img {
+            width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9), 0 0 50px rgba(209, 174, 118, 0.1);
+        }
+
+        /* Active Slide Animation Hooks */
+        .active .text-side {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .active .visual-side {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Typography */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: var(--gold);
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .badge::after {
+            content: '';
+            height: 1px;
+            width: 80px;
+            background: linear-gradient(to left, var(--gold), transparent);
+        }
+
+        h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #fff 30%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 2.2rem;
+            color: var(--gold-glow);
+            font-weight: 500;
+            margin-top: -1rem;
+        }
+
+        p {
+            font-size: 1.5rem;
+            color: var(--grey);
+            line-height: 1.8;
+            font-weight: 300;
+            max-width: 90%;
+        }
+
+        .highlight-card {
+            background: var(--glass);
+            border-right: 5px solid var(--gold);
+            padding: 2.5rem;
+            margin-top: 2rem;
+            border-radius: 0 15px 15px 0;
+        }
+
+        .highlight-card h3 {
+            color: var(--white);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Bullet Points System */
+        ul.epic-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        ul.epic-list li {
+            position: relative;
+            padding-right: 4rem;
+            font-size: 1.6rem;
+            color: var(--white);
+        }
+
+        ul.epic-list li::before {
+            content: '𓃠';
+            /* Sacred Scribe Symbol Placeholder */
+            position: absolute;
+            right: 0;
+            color: var(--gold);
+            font-size: 2.2rem;
+            top: -5px;
+            text-shadow: 0 0 15px var(--gold);
+        }
+
+        ul.epic-list li strong {
+            color: var(--gold-light);
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        /* Market Cards */
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .market-card {
+            background: rgba(209, 174, 118, 0.05);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .market-card:hover {
+            border-color: var(--gold);
+            background: rgba(209, 174, 118, 0.15);
+            transform: translateY(-10px);
+        }
+
+        .market-card h4 {
+            color: var(--gold);
+            font-size: 3rem;
+            font-family: 'Outfit', sans-serif;
+            margin-bottom: 1rem;
+        }
+
+        /* Navigation Arrows */
+        .controls {
+            position: fixed;
+            bottom: 3rem;
+            left: 3rem;
+            z-index: 1000;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .btn-nav {
+            width: 70px;
+            height: 70px;
+            background: var(--glass);
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-nav:hover {
+            border-color: var(--gold);
+            background: var(--gold);
+            transform: scale(1.1);
+        }
+
+        .btn-nav path {
+            fill: var(--gold);
+        }
+
+        .btn-nav:hover path {
+            fill: var(--obsidian);
+        }
+
+        /* Center Slide Mod */
+        .slide-center .container {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+
+        .slide-center .text-side {
+            align-items: center;
+        }
+
+        /* Print Override */
+        @media print {
+            .controls {
+                display: none;
+            }
+
+            section.slide {
+                height: 100vh;
+                width: 100vw;
+            }
+        }
+
+        /* Side Dots Navigation */
+        .side-nav {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .dot.active {
+            background-color: var(--gold);
+            border-color: var(--gold);
+            box-shadow: 0 0 10px var(--gold);
+            height: 30px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="presentation" id="mainContainer">
+
+        <!-- سريحة 1: الأسطورة والرؤية -->
+        <section class="slide active">
+            <div class="bg-layer"></div>
+            <div class="bg-texture"></div>
+            <div class="hieroglyph-scroll"></div>
+            <div class="container">
+                <div class="text-side">
+                    <div class="badge">The Hook / الرؤية</div>
+                    <h1>Voith</h1>
+                    <div class="subtitle">حكمة الأجداد.. بذكاء المستقبل</div>
+                    <p>منذ آلاف السنين، سيطر أجدادنا على المعرفة وخلّدوا التاريخ. اليوم، نحن نعيد إحياء هذه الروح بلغة
+                        الـ AI.</p>
+                    <div class="highlight-card">
+                        <h3>الرؤية الاستراتيجية</h3>
+                        <p>بناء "نظام تشغيل إبداعي" يوحد شتات الأدوات ويحرر عقل المبدع من القيود التقنية للوصول إلى
+                            الخلود الرقمي.</p>
+                    </div>
+                </div>
+                <div class="visual-side">
+                    <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_epic_vision_thoth_altar_1766188136746.png"
+                        alt="Voith Vision">
+                </div>
+            </div>
+        </section>
+
+        <!-- سريحة 2: المتاهة (المشكلة) -->
+        <section class="slide">
+            <div class="bg-layer"></div>
+            <div class="container">
+                <div class="text-side">
+                    <div class="badge">The Pain / المعاناة</div>
+                    <h1>كابوس التشتت</h1>
+                    <p>صناعة المحتوى اليوم عملية مفككة، تجبر المبدع على أن يكون مهندساً ومحاسباً وإدارياً بدلاً من أن
+                        يكون "ملكاً لقلمه".</p>
+                    <ul class="epic-list">
+                        <li><strong>سجن المنصات المتعددة</strong> ضياع 40% من الوقت في التنقل بين تطبيقات الكتابة،
+                            الصورة، والصوت.</li>
+                        <li><strong>استنزاف الموارد</strong> فاتورة اشتراكات شهرية مربكة ومكلفة تقتل أرباح المبدع
+                            المستقل.</li>
+                        <li><strong>الحاجز التقني</strong> أدوات ذكاء اصطناعي معقدة تزيد من التوتر بدلاً من تبسيط العمل.
+                        </li>
+                    </ul>
+                </div>
+                <div class="visual-side">
+                    <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_chaos_digital_prison_1766188153446.png"
+                        alt="Digital Chaos">
+                </div>
+            </div>
+        </section>
+
+        <!-- سريحة 3: الحرم (الحل) -->
+        <section class="slide">
+            <div class="bg-layer"></div>
+            <div class="container">
+                <div class="text-side">
+                    <div class="badge">The Sanctuary / الحل</div>
+                    <h1>Voith Center</h1>
+                    <div class="subtitle">استوديو الإنتاج المتكامل</div>
+                    <p>لسنا مجرد أداة، بل بنينا منظومة متكاملة (Ecosystem). منصة واحدة مركزية تجمع كل ما يحتاجه المبدع
+                        في واجهة ملكية واحدة.</p>
+                    <div class="market-grid">
+                        <div class="market-card">
+                            <h4>All in One</h4>
+                            <p>توحيد كامل للأدوات</p>
+                        </div>
+                        <div class="market-card">
+                            <h4>Fast</h4>
+                            <p>سرعة تنفيذ مذهلة</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="visual-side">
+                    <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_digital_temple_dashboard_1766188173793.png"
+                        alt="Voith Sanctuary">
+                </div>
+            </div>
+        </section>
+
+        <!-- سريحة 4-7: صولجانات الإبداع (القدرات) -->
+        <section class="slide">
+            <div class="bg-layer"></div>
+            <div class="container">
+                <div class="text-side">
+                    <div class="badge">Scepters / القدرات</div>
+                    <h1>سلاح المبدع</h1>
+                    <p>خمسة محركات قوية تعمل بتناغم تام لتحويل الفكر إلى واقع ملموس.</p>
+                    <ul class="epic-list">
+                        <li><strong>الوسائط الذكية (Media Scepter)</strong> تحميل من يوتيوب، تحويل الصيغ، وضغط 4K بضغطة
+                            زر.</li>
+                        <li><strong>استوديو الصوت (Voice Lab)</strong> استنساخ صوت المستخدم الشخصي ليقرأ السيناريوهات
+                            المستقبلية بدقة متناهية.</li>
+                        <li><strong>المولد الإبداعي (Generative Studio)</strong> توليد صور وفيديوهات حصرية من النصوص لحل
+                            مشاكل حقوق الملكية.</li>
+                    </ul>
+                </div>
+                <div class="visual-side">
+                    <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_digital_pyramid_ecosystem_1766147012510.png"
+                        alt="Capabilities">
+                </div>
+            </div>
+        </section>
+
+        <!-- سريحة 8: الإمبراطورية (حجم السوق) -->
+        <section class="slide">
+            <div class="bg-layer"></div>
+            <div class="container">
+                <div class="text-side">
+                    <div class="badge">The Empire / الفرصة</div>
+                    <h1>اقتصاد المبدعين</h1>
+                    <p>نحن نستهدف سوقاً هو الأسرع نمواً في العالم الرقمي اليوم.</p>
+                    <div class="market-grid" style="margin-top: 2rem;">
+                        <div class="market-card">
+                            <h4>$250B</h4>
+                            <p>حجم السوق الحالي</p>
+                        </div>
+                        <div class="market-card">
+                            <h4>$480B</h4>
+                            <p>بحلول عام 2027</p>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--gold-glow);">هناك فجوة هائلة في السوق العربي للأدوات
+                        المتكاملة.. Voith هي الجسر.</p>
+                </div>
+                <div class="visual-side">
+                    <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_market_opportunity_infographic_1766146388773.png"
+                        alt="Market Insight">
+                </div>
+            </div>
+        </section>
+
+        <!-- سريحة 9: المسيرة (خارطة الطريق) -->
+        <section class="slide">
+            <div class="bg-layer"></div>
+            <div class="container">
+                <div class="text-side">
+                    <div class="badge">The Roadmap / الخطة</div>
+                    <h1>بناء الهرم الرقمي</h1>
+                    <ul class="epic-list">
+                        <li><strong>Q1: الانطلاق القوي</strong> إطلاق الـ MVP واستقطاب الموجة الأولى من صناع المحتوى.
+                        </li>
+                        <li><strong>Q2: توسيع المنظومة</strong> دمج أدوات المونتاج السحابي والـ SEO الذكي.</li>
+                        <li><strong>Q3: الهيمنة الإقليمية</strong> بناء شراكات كبرى مع وكالات التسويق والمؤثرين.</li>
+                    </ul>
+                </div>
+                <div class="visual-side">
+                    <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_digital_empire_roadmap_1766188192495.png"
+                        alt="Roadmap">
+                </div>
+            </div>
+        </section>
+
+        <!-- سريحة 10: الموعد (الاستثمار) -->
+        <section class="slide slide-center">
+            <div class="bg-layer"
+                style="background: radial-gradient(circle at center, rgba(209,174,118,0.2) 0%, var(--obsidian) 80%);">
+            </div>
+            <div class="container">
+                <div class="text-side">
+                    <div class="badge">The Pack / الاستثمار</div>
+                    <h1>المستقبل.. لمن يصنعه</h1>
+                    <p>نحن نبحث عن شركاء يؤمنون بأن القوة تكمن في اجتماع الحكمة مع التكنولوجيا.</p>
+                    <div style="margin-top: 3rem; display: flex; gap: 4rem; justify-content: center;">
+                        <div
+                            style="border: 1px solid var(--gold); padding: 3rem; border-radius: 20px; min-width: 300px;">
+                            <h2 style="font-size: 3.5rem;">Ready</h2>
+                            <p>المنتج جاهز للاختبار</p>
+                        </div>
+                        <div
+                            style="border: 1px solid var(--gold); padding: 3rem; border-radius: 20px; min-width: 300px;">
+                            <h2 style="font-size: 3.5rem;">Scaling</h2>
+                            <p>جاهزون للتوسع العالمي</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 4rem;">
+                        <img src="C:/Users/alyma/.gemini/antigravity/brain/e48d4d23-4d6d-464e-8a45-4dc0fc74ea70/voith_pharaonic_future_city_1766147031132.png"
+                            style="width: 500px; border-radius: 15px;" alt="Future VOITH City">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="side-nav" id="sideNav">
+        <!-- Dots generated via JS -->
+    </div>
+
+    <div class="controls">
+        <div class="btn-nav" onclick="prevSlide()">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+                <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" />
+            </svg>
+        </div>
+        <div class="btn-nav" onclick="nextSlide()">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('mainContainer');
+        const slides = document.querySelectorAll('section.slide');
+        const sideNav = document.getElementById('sideNav');
+        let currentIdx = 0;
+
+        // Create Side Dots
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.onclick = () => {
+                slides[i].scrollIntoView({ behavior: 'smooth' });
+            };
+            sideNav.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
+
+        // Sync Active Class with Visibility
+        const observerOptions = {
+            root: container,
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const idx = Array.from(slides).indexOf(entry.target);
+
+                    // Update Active Slide
+                    slides.forEach(s => s.classList.remove('active'));
+                    entry.target.classList.add('active');
+
+                    // Update Active Dot
+                    dots.forEach(d => d.classList.remove('active'));
+                    dots[idx].classList.add('active');
+
+                    currentIdx = idx;
+                }
+            });
+        }, observerOptions);
+
+        slides.forEach(slide => observer.observe(slide));
+
+        // Manual Navigation Functions
+        function nextSlide() {
+            if (currentIdx < slides.length - 1) {
+                slides[currentIdx + 1].scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function prevSlide() {
+            if (currentIdx > 0) {
+                slides[currentIdx - 1].scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Keyboard support
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                e.preventDefault();
+                nextSlide();
+            }
+            if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+    </script>
+
+</body>
+
+</html>

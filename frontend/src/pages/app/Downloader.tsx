@@ -55,8 +55,10 @@ export const Downloader = () => {
                 // Start polling
                 const interval = setInterval(async () => {
                     try {
+                        console.log("📡 Polling job status for task:", taskId);
                         const statusRes = await downloaderService.getJobStatus(taskId);
                         const job = statusRes.data;
+                        console.log("✅ Status response:", job);
 
                         setProgress(job.progress);
 
@@ -81,7 +83,7 @@ export const Downloader = () => {
                             console.error("Job failed:", job.message);
                         }
                     } catch (err) {
-                        console.error("Polling error:", err);
+                        console.error("❌ Polling error:", err);
                     }
                 }, 1000);
             } else {
