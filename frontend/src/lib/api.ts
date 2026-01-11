@@ -44,8 +44,10 @@ export const downloaderService = {
     getJobStatus: async (taskId: string) => {
         // Call the actual backend progress endpoint
         const url = `/downloader/progress/${taskId}`;
+        const fullUrl = `${API_BASE_URL}${url}`;
         console.log("🔄 Checking progress from URL:", url);
         console.log("🌐 Full API Base URL:", API_BASE_URL);
+        console.log("🎯 COMPLETE URL BEING CALLED:", fullUrl);
         return api.get(url);
     }
 };
