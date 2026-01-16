@@ -49,6 +49,26 @@ export const downloaderService = {
         console.log("🌐 Full API Base URL:", API_BASE_URL);
         console.log("🎯 COMPLETE URL BEING CALLED:", fullUrl);
         return api.get(url);
+    },
+    // NEW: Get available qualities and processing types
+    getCapabilities: async () => {
+        return api.get('/downloader/capabilities');
+    },
+    // NEW: Get available formats/qualities for a specific URL
+    getFormats: async (url: string) => {
+        return api.get('/downloader/formats', { params: { url } });
+    },
+    // NEW: Quick download - direct download without processing
+    quickDownload: async (url: string, quality: string) => {
+        return api.post('/downloader/quick-download', { url, quality });
+    },
+    // NEW: Process & download - download with transcription/conversion/etc
+    processDownload: async (url: string, quality: string, processingTypes: string[]) => {
+        return api.post('/downloader/process-download', {
+            url,
+            quality,
+            processing_types: processingTypes
+        });
     }
 };
 
